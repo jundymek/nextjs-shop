@@ -1,6 +1,6 @@
 export const Footer = () => {
   return (
-    <footer className="text-gray-600 body-font max-w-5xl w-full mx-auto">
+    <footer className="text-gray-600 body-font container w-full mx-auto">
       <div className="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
         <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
           <svg

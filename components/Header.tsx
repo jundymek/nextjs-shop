@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
+import { LinkNav } from "./LinkNav";
 
 export const Header = () => {
   const router = useRouter();
 
   return (
-    <header className="max-w-5xl w-full mx-auto">
+    <header className="container w-full mx-auto">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
           <svg
@@ -24,12 +25,8 @@ export const Header = () => {
           <span className="ml-3 text-xl">Next.js SHOP</span>
         </a>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
-          <Link href="/">
-            <a className={`mr-5 hover:text-gray-900 ${router.pathname === "/" && "underline"}`}>Home</a>
-          </Link>
-          <Link href="/about">
-            <a className={`mr-5 hover:text-gray-900 ${router.pathname === "/about" && "underline"}`}>About</a>
-          </Link>
+          <LinkNav href="/">Home</LinkNav>
+          <LinkNav href="/about">About</LinkNav>
         </nav>
         <button className="inline-flex items-center bg-gray-100 border-0 py-1 px-3 focus:outline-none hover:bg-gray-200 rounded text-base mt-4 md:mt-0">
           Button
