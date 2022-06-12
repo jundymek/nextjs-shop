@@ -4,7 +4,7 @@ import { Main } from "../components/Main";
 
 const about = () => {
   return (
-    <div>
+    <div className="flex flex-col min-h-screen">
       <Header />
       <Main>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident vitae reprehenderit adipisci minus
