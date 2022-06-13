@@ -39,14 +39,11 @@ const Home = () => {
                   <button className="inline-flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     See example product
                   </button>
-                  {/* <button className="ml-4 inline-flex text-gray-700 bg-gray-100 border-0 py-2 px-6 focus:outline-none hover:bg-gray-200 rounded text-lg">
-                    Button
-                  </button> */}
                 </div>
               </div>
             </div>
+          <Product data={DATA} />
           </section>
-          {/* <Product data={DATA} /> */}
         </>
       </Main>
       <Footer />
