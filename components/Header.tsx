@@ -4,7 +4,6 @@ import Image from "next/image";
 import { LinkNav } from "./LinkNav";
 
 export const Header = () => {
-  const router = useRouter();
 
   return (
     <header className="container w-full mx-auto">

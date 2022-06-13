@@ -2,7 +2,6 @@ import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
 import { Product } from "../components/Product";
-import Image from "next/image";
 
 const DATA = {
   description:
