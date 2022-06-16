@@ -2,13 +2,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import { LinkNav } from "./LinkNav";
+import { LogoIcon } from "./Icons/LogoIcon";
+
 
 export const Header = () => {
 
   return (
     <header className="container w-full mx-auto">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
+      <Link href="/">
         <a className="flex title-font font-medium items-center text-gray-900 mb-4 md:mb-0">
+        <Image src="/static/images/logoIcon.svg" alt="alt" width="44" height="44" />
+        <LogoIcon className="mx-2" />
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="icon icon-tabler icon-tabler-building-store"
@@ -30,6 +35,7 @@ export const Header = () => {
           </svg>
           <span className="ml-3 text-xl">Next.js SHOP</span>
         </a>
+        </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           <LinkNav href="/">Home</LinkNav>
           <LinkNav href="/about">About</LinkNav>

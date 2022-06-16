@@ -10,10 +10,6 @@ interface ProductProps {
 }
 
 export const Product = ({ data }: ProductProps) => {
-  const numberOfFullStars = Math.floor(data.rating);
-  const isHalfStar = data.rating % 1 !== 0;
-  console.log(numberOfFullStars);
-  console.log(isHalfStar);
   return (
     <>
       <section className="text-gray-600 body-font overflow-hidden">
