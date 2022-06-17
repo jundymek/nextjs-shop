@@ -1,6 +1,6 @@
 export const Logo = () => {
   return (
-    <a className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 mr-2">
+    <div className="flex title-font font-medium items-center md:justify-start justify-center text-gray-900 mr-2">
       <svg
         xmlns="http://www.w3.org/2000/svg"
         className="icon icon-tabler icon-tabler-building-store"
@@ -21,6 +21,6 @@ export const Logo = () => {
         <path d="M9 21v-4a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v4" />
       </svg>
       <span className="ml-3 text-xl">Next.js SHOP</span>
-    </a>
+    </div>
   );
 };

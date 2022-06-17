@@ -8,7 +8,9 @@ export const Header = () => {
     <header className="container w-full mx-auto">
       <div className="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center">
         <Link href="/">
-          <Logo />
+          <a>
+            <Logo />
+          </a>
         </Link>
         <nav className="md:ml-auto flex flex-wrap items-center text-base justify-center">
           <LinkNav href="/">Home</LinkNav>
