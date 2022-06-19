@@ -1,4 +1,5 @@
-import { Product } from "components/Product";
+import { ProductDetails } from "components/Product";
+import ProductListItem from "components/ProductListItem";
 import { InferGetStaticPropsType } from "next";
 
 const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
@@ -7,13 +8,12 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
       {data.map((product) => {
         return (
           <li key={product.id} className="shadow-sm border">
-            <Product
+            <ProductListItem
               data={{
+                id: product.id,
                 title: product.title,
-                description: product.description,
                 thumbnailUrl: product.image,
                 thumbnailAlt: product.title,
-                rating: product.rating.rate,
               }}
             />
           </li>

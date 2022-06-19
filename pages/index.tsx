@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
-import { Product } from "../components/Product";
+import { ProductDetails } from "../components/Product";
 
 const DATA = {
   description:
@@ -52,11 +52,11 @@ const Home = () => {
                 {!isProductVisible ? "See example product" : "Hide example product"}
               </button>
             </div>
-            {isProductVisible && (
+            {/* {isProductVisible && (
               <div className="animate-fade-in-down">
-                <Product data={DATA} />
+                <ProductDetails data={DATA} />
               </div>
-            )}
+            )} */}
           </section>
         </>
       </Main>

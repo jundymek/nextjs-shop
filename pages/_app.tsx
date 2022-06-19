@@ -1,23 +1,16 @@
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import type { ReactElement, ReactNode } from "react";
-import type { NextPage } from "next";
-import Layout from "../components/Layout";
+import { QueryClient, QueryClientProvider } from "react-query";
 
-type NextPageWithLayout = NextPage & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
+const client = new QueryClient();
 
-type AppPropsWithLayout = AppProps & {
-  Component: NextPageWithLayout;
-};
-
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-  const getLayout = Component.getLayout ?? ((page) => page);
-  return getLayout(
-    // <Layout>
-    <Component {...pageProps} />
-    // </Layout>
+function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <div>
+      <QueryClientProvider client={client}>
+        <Component {...pageProps} />
+      </QueryClientProvider>
+    </div>
   );
 }
 
