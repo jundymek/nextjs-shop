@@ -1,6 +1,6 @@
-import { StarFullIcon } from "components/icons/StarFullIcon";
-import { StarHalfIcon } from "components/icons/StarHalfIcon";
-import { StarEmptyIcon } from "components/icons/StarEmptyIcon";
+import { StarEmptyIcon } from "./icons";
+import { StarFullIcon } from "./icons/StarFullIcon";
+import { StarHalfIcon } from "./icons/StarHalfIcon";
 
 interface RatingProps {
   rating: number;
