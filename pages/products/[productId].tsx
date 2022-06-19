@@ -31,7 +31,7 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
 export default ProductIdPage;
 
 export const getStaticPaths = async (): Promise<GetStaticPathsResult<import("querystring").ParsedUrlQuery>> => {
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products`);
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=250&offset=0`);
   const data: StoreApiResponse[] = await res.json();
   return {
     paths: data.map((product) => {

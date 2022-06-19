@@ -1,33 +1,15 @@
 import { Pagination } from "components/Pagination";
 import ProductListItem from "components/ProductListItem";
-import { GetStaticPathsResult } from "next";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { GetStaticPathsResult, GetStaticPropsContext, InferGetStaticPropsType } from "next";
 
-const getProducts = async (offset: number) => {
-  console.log(offset, "OFFSET in getProducts");
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${offset}`);
-  const data: StoreApiResponse[] = await res.json();
-  console.log(data);
-  return data;
-};
-
-const ProductsPageCSR = () => {
-  const router = useRouter();
-  const currentPage = parseInt(typeof router.query.pageNumber === "string" ? router.query.pageNumber : "1");
-  const currentOffset = (currentPage - 1) * 25;
-  const result = useQuery(["products", currentOffset], () => getProducts(currentOffset));
-
-  if (result.isLoading) {
-    return <p>Loading...</p>;
-  }
-  if (!result.data || result.error) {
-    return <p>Error</p>;
+export const ProductsPageSSG = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  if (!data) {
+    return <div>Error</div>;
   }
   return (
     <div className="flex flex-col items-center py-4">
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {result.data.map((product) => {
+        {data.map((product) => {
           return (
             <li key={product.id} className="shadow-sm border">
               <ProductListItem
@@ -47,11 +29,23 @@ const ProductsPageCSR = () => {
   );
 };
 
-export default ProductsPageCSR;
+export default ProductsPageSSG;
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ params }: GetStaticPropsContext<{ pageNumber: string }>) => {
+  if (!params?.pageNumber) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
+  const currentOffset = (parseInt(params?.pageNumber) - 1) * 25;
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${currentOffset}`);
+  const data: StoreApiResponse[] = await res.json();
+  console.log(data);
   return {
-    props: {},
+    props: {
+      data,
+    },
   };
 };
 
