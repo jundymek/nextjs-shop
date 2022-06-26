@@ -1,33 +1,16 @@
 import { Pagination } from "components/Pagination";
 import ProductListItem from "components/ProductListItem";
-import { GetStaticPathsResult } from "next";
-import { useRouter } from "next/router";
-import { useQuery } from "react-query";
+import { GetStaticPathsResult, GetStaticPropsContext, InferGetStaticPropsType } from "next";
 
-const getProducts = async (offset: number) => {
-  console.log(offset, "OFFSET in getProducts");
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${offset}`);
-  const data: StoreApiResponse[] = await res.json();
-  console.log(data);
-  return data;
-};
-
-const ProductsPageCSR = () => {
-  const router = useRouter();
-  const currentPage = parseInt(typeof router.query.pageNumber === "string" ? router.query.pageNumber : "1");
-  const currentOffset = (currentPage - 1) * 25;
-  const result = useQuery(["products", currentOffset], () => getProducts(currentOffset));
-
-  if (result.isLoading) {
-    return <p>Loading...</p>;
-  }
-  if (!result.data || result.error) {
-    return <p>Error</p>;
+export const ProductsPageSSG = ({ data, numberOfProducts }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  console.log(numberOfProducts, "NUMBER");
+  if (!data) {
+    return <div>Error</div>;
   }
   return (
     <div className="flex flex-col items-center py-4">
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {result.data.map((product) => {
+        {data.map((product) => {
           return (
             <li key={product.id} className="shadow-sm border">
               <ProductListItem
@@ -42,16 +25,35 @@ const ProductsPageCSR = () => {
           );
         })}
       </ul>
-      <Pagination />
+      <Pagination numberOfProducts={numberOfProducts} />
     </div>
   );
 };
 
-export default ProductsPageCSR;
+export default ProductsPageSSG;
 
-export const getStaticProps = async () => {
+export const getStaticProps = async ({ params }: GetStaticPropsContext<{ pageNumber: string }>) => {
+  if (!params?.pageNumber) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
+  let numberOfProducts = await recursiveFetch(0, 0);
+  const currentOffset = (parseInt(params?.pageNumber) - 1) * 25;
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=${currentOffset}`);
+  const data: StoreApiResponse[] = await res.json();
+  if (!data.length) {
+    return {
+      props: {},
+      notFound: true,
+    };
+  }
   return {
-    props: {},
+    props: {
+      data,
+      numberOfProducts: numberOfProducts,
+    },
   };
 };
 
@@ -69,14 +71,30 @@ interface StoreApiResponse {
 }
 
 export const getStaticPaths = async (): Promise<GetStaticPathsResult<import("querystring").ParsedUrlQuery>> => {
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=250&offset=0`);
+  const data: StoreApiResponse[] = await res.json();
+  const numberOfPagesForFirstRender = data.length / 25;
   return {
-    paths: Array.from({ length: 10 }, (_, i) => {
+    paths: Array.from({ length: numberOfPagesForFirstRender }, (_, i) => {
       return {
         params: {
           pageNumber: (i + 1).toString(),
         },
       };
     }),
-    fallback: false,
+    fallback: "blocking",
   };
+};
+
+const recursiveFetch = async (offset: number, currentRecords: number): Promise<number> => {
+  console.log(offset);
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=1000&offset=${offset.toString()}`);
+  const data: StoreApiResponse[] = await res.json();
+  let records = currentRecords;
+  if (res.status === 200 && data.length > 0) {
+    records += data.length;
+  } else {
+    return records;
+  }
+  return recursiveFetch(offset + 1000, records);
 };

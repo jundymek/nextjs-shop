@@ -29,7 +29,7 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
           );
         })}
       </ul>
-      <Pagination />
+      {/* <Pagination /> */}
     </div>
   );
 };
@@ -39,7 +39,7 @@ export default ProductsPage;
 export const getStaticProps = async () => {
   const res = await fetch(`https://naszsklep-api.vercel.app/api/products/`);
   const data: StoreApiResponse[] = await res.json();
-  console.log(data);
+  console.log(res, "DDDDDDDDD");
   return {
     props: {
       data,

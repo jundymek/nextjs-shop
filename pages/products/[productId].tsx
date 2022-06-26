@@ -5,15 +5,15 @@ import { useRouter } from "next/router";
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
   const router = useRouter();
-  console.log(router);
+  console.log(router.pathname);
   if (!data) {
     return <div>Error</div>;
   }
   return (
     <>
-      <Link href="/products">
-        <a>Back to products</a>
-      </Link>
+      <button type="button" onClick={() => router.back()}>
+        Back to products
+      </button>
       <ProductDetails
         data={{
           id: data.id,
@@ -31,24 +31,17 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
 export default ProductIdPage;
 
 export const getStaticPaths = async (): Promise<GetStaticPathsResult<import("querystring").ParsedUrlQuery>> => {
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products`);
+  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=0`);
   const data: StoreApiResponse[] = await res.json();
   return {
-    paths: data.map((product) => {
+    paths: data.slice(0, 1).map((product) => {
       return {
         params: {
           productId: product.id.toString(),
         },
       };
     }),
-    // [
-    //   {
-    //     params: {
-    //       productId: "1",
-    //     },
-    //   },
-    // ],
-    fallback: false,
+    fallback: "blocking",
   };
 };
 

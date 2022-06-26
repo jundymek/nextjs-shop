@@ -1,5 +1,4 @@
 import { ProductDetails } from "components/Product";
-import { InferGetStaticPropsType } from "next";
 import { useQuery } from "react-query";
 
 const getProducts = async () => {
@@ -42,17 +41,6 @@ const ProductsCSRPage = () => {
 };
 
 export default ProductsCSRPage;
-
-// export const getStaticProps = async () => {
-//   const res = await fetch(`https://fakestoreapi.com/products/`);
-//   const data: StoreApiResponse[] = await res.json();
-//   console.log(data);
-//   return {
-//     props: {
-//       data,
-//     },
-//   };
-// };
 
 interface StoreApiResponse {
   id: number;
