@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface PaginationProps {
   numberOfProducts: number;
@@ -22,7 +22,22 @@ export const Pagination = ({ numberOfProducts }: PaginationProps) => {
     setIsPageNumberInputVisible(!isPageNumberInputVisible);
   };
 
-  console.log(currentPageNumber);
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+
+  function handleClickOutside(event: { target: any }) {
+    if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      console.log("changed");
+      setIsPageNumberInputVisible(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [wrapperRef]);
+
   return (
     <nav className="sm:border-t border-gray-200 px-4 flex items-center justify-between sm:px-0 mt-2">
       <div className="hidden sm:-mt-px sm:flex">
@@ -61,17 +76,22 @@ export const Pagination = ({ numberOfProducts }: PaginationProps) => {
               </Link>
             </li>
           ))}
-          {currentPage < numberOfPages - 3 && (
+          {numberOfPages > 10 && (
             <>
               <li className="inline-block relative">
                 <button
                   onClick={togglePageInputVisible}
-                  className="border-transparent text-gray-500 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium"
+                  className="border-transparent text-gray-500 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium relative"
                 >
                   ...
+                  {currentPage > 3 && currentPage < numberOfPages - 3 && (
+                    <span className="absolute top-0 left-1/2 -translate-x-1/2 border-indigo-500 text-indigo-600 border-t-2">
+                      {currentPage}
+                    </span>
+                  )}
                 </button>
                 {isPageNumberInputVisible && (
-                  <div className="flex absolute -top-20 left-1/2 -translate-x-1/2">
+                  <div className="flex absolute -top-20 left-1/2 -translate-x-1/2" ref={wrapperRef}>
                     <div className="relative">
                       <div className="absolute top-4 left-3">
                         {" "}
@@ -82,14 +102,13 @@ export const Pagination = ({ numberOfProducts }: PaginationProps) => {
                         className="h-14 w-30 pl-10 pr-20 rounded-lg z-0 focus:shadow focus:outline-none"
                         placeholder="Go to page..."
                         max={numberOfPages}
-                        // value={currentPageNumber}
                         onInput={(e) => setCurrentPageNumber(parseInt((e.target as HTMLInputElement).value))}
                       />
                       <div className="absolute top-2 right-2">
                         {" "}
                         <button
                           onClick={() => handleChangePage(currentPageNumber)}
-                          className="h-10 w-20 text-white rounded-lg bg-red-500 hover:bg-red-600"
+                          className="h-10 w-20 text-white rounded-lg bg-indigo-500 hover:bg-indigo-600"
                         >
                           Go
                         </button>{" "}
