@@ -10,7 +10,6 @@ export interface ProductDetails {
   title: string;
 }
 
-type ProductListItem = Pick<ProductDetails, "title" | "thumbnailUrl" | "thumbnailAlt">;
 interface ProductDetailsProps {
   data: ProductDetails;
 }
@@ -32,12 +31,7 @@ export const ProductDetails = ({ data }: ProductDetailsProps) => {
                 objectFit="contain"
               />
             </div>
-            {/* <img
-              alt="ecommerce"
-              className="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-              src="https://dummyimage.com/400x400"
-            /> */}
-            <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+            <div className="lg:w-1/2 w-full p-6 lg:px-10 lg:py-6 mt-6 lg:mt-0">
               <h2 className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
               <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">The Catcher in the Rye</h1>
               <div className="flex mb-4">
