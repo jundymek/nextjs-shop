@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { LinkNav } from "./LinkNav";
 import { Logo } from "components/Logo";
 

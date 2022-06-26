@@ -1,4 +1,4 @@
-import { StarEmptyIcon } from "./icons";
+import { StarEmptyIcon } from "./icons/StarEmptyIcon";
 import { StarFullIcon } from "./icons/StarFullIcon";
 import { StarHalfIcon } from "./icons/StarHalfIcon";
 

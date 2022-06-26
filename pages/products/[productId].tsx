@@ -41,13 +41,6 @@ export const getStaticPaths = async (): Promise<GetStaticPathsResult<import("que
         },
       };
     }),
-    // [
-    //   {
-    //     params: {
-    //       productId: "1",
-    //     },
-    //   },
-    // ],
     fallback: "blocking",
   };
 };
