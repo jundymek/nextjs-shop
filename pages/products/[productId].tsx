@@ -1,30 +1,21 @@
 import { ProductDetails } from "components/Product";
 import { GetStaticPathsResult, GetStaticPropsContext, InferGetStaticPropsType } from "next";
-import Link from "next/link";
-import { useRouter } from "next/router";
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  const router = useRouter();
-  console.log(router.pathname);
   if (!data) {
     return <div>Error</div>;
   }
   return (
-    <>
-      <button type="button" onClick={() => router.back()}>
-        Back to products
-      </button>
-      <ProductDetails
-        data={{
-          id: data.id,
-          title: data.title,
-          description: data.description,
-          thumbnailUrl: data.image,
-          thumbnailAlt: data.title,
-          rating: data.rating.rate,
-        }}
-      />
-    </>
+    <ProductDetails
+      data={{
+        id: data.id,
+        title: data.title,
+        description: data.description,
+        thumbnailUrl: data.image,
+        thumbnailAlt: data.title,
+        rating: data.rating.rate,
+      }}
+    />
   );
 };
 

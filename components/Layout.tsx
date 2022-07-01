@@ -4,9 +4,9 @@ import { Header } from "./Header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow flex"> {children} </main>
+      <main className="container mx-auto flex-grow flex flex-col items-center justify-center"> {children} </main>
       <Footer />
     </div>
   );

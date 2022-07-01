@@ -3,13 +3,12 @@ import ProductListItem from "components/ProductListItem";
 import { GetStaticPathsResult, GetStaticPropsContext, InferGetStaticPropsType } from "next";
 
 export const ProductsPageSSG = ({ data, numberOfProducts }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  console.log(numberOfProducts, "NUMBER");
   if (!data) {
     return <div>Error</div>;
   }
   return (
     <div className="flex flex-col items-center py-4">
-      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
         {data.map((product) => {
           return (
             <li key={product.id} className="shadow-sm border">

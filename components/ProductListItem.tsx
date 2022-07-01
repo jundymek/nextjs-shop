@@ -13,13 +13,11 @@ const ProductListItem = ({ data }: ProductListItemProps) => {
       <div className="container px-5 mx-auto h-full">
         <div className="w-full lg:mt-0 flex flex-col justify-between h-full">
           <Image
-            layout="responsive"
-            width={16}
-            height={9}
-            className="bg-white"
+            width={300}
+            height={200}
+            className="bg-white object-contain"
             src={data.thumbnailUrl}
             alt={data.thumbnailAlt}
-            objectFit="contain"
           />
           <div>
             <span className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</span>

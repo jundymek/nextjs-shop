@@ -4,6 +4,11 @@ const nextConfig = {
   images: {
     domains: ["tailwindui.com", "naszsklep-api.vercel.app", "fakestoreapi.com"],
   },
+  experimental: {
+    images: {
+      allowFutureImage: true,
+    },
+  },
 };
 
 module.exports = nextConfig;
