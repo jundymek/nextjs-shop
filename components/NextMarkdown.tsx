@@ -12,7 +12,9 @@ export const NextMarkdown = ({ children }: { children: MarkdownResult }) => {
           if (!href) {
             return <a {...props} />;
           }
-          return (
+          return !isInternalLink(href) ? (
+            <a href={href} {...props} rel="noopener noreferrer" />
+          ) : (
             <Link href={href}>
               <a {...props}></a>
             </Link>
@@ -21,4 +23,8 @@ export const NextMarkdown = ({ children }: { children: MarkdownResult }) => {
       }}
     ></MDXRemote>
   );
+};
+
+const isInternalLink = (url: string) => {
+  return url.startsWith("/");
 };
