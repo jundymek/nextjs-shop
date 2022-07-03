@@ -3,11 +3,12 @@ import { useRouter } from "next/router";
 import { Rating } from "./Rating";
 import { NextSeo } from "next-seo";
 import { NextMarkdown } from "./NextMarkdown";
+import { MDXRemoteSerializeResult } from "next-mdx-remote";
 
 export interface ProductDetails {
   id: number;
   description: string;
-  longDescription: string;
+  longDescription: MDXRemoteSerializeResult<Record<string, unknown>>;
   thumbnailUrl: string;
   thumbnailAlt: string;
   rating: number;
