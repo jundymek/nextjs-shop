@@ -1,9 +1,8 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Rating } from "./Rating";
-import ReactMarkdown from "react-markdown";
-import Head from "next/head";
 import { NextSeo } from "next-seo";
+import { NextMarkdown } from "./NextMarkdown";
 
 export interface ProductDetails {
   id: number;
@@ -57,7 +56,7 @@ export const ProductDetails = ({ data }: ProductDetailsProps) => {
                 <Rating rating={data.rating} />
               </div>
               <article className="prose">
-                <ReactMarkdown>{data.longDescription}</ReactMarkdown>
+                <NextMarkdown>{data.longDescription}</NextMarkdown>
               </article>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
