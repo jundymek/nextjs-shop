@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { LinkNav } from "./LinkNav";
 import { Logo } from "components/Logo";
+import { Cart } from "./cart/Cart";
 
 export const Header = () => {
   return (
@@ -15,6 +16,7 @@ export const Header = () => {
           <LinkNav href="/">Home</LinkNav>
           <LinkNav href="/about">About</LinkNav>
         </nav>
+        <Cart />
       </div>
     </header>
   );
