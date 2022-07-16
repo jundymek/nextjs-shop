@@ -1,21 +1,31 @@
+import { gql } from "@apollo/client";
 import { ProductDetails } from "components/Product";
+import {
+  GetProductDetailsBySlugDocument,
+  GetProductDetailsBySlugQuery,
+  GetProductDetailsBySlugQueryVariables,
+  GetProductsSlugsDocument,
+  GetProductsSlugsQuery,
+} from "generated/graphql";
+import { apolloClient } from "graphql/apolloClient";
 import { GetStaticPathsResult, GetStaticPropsContext, InferGetStaticPropsType } from "next";
 import { serialize } from "next-mdx-remote/serialize";
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
-  if (!data) {
+  if (!data || !data?.product) {
     return <div>Error</div>;
   }
+  console.log(data);
   return (
     <ProductDetails
-      data={{
-        id: data.id,
-        title: data.title,
-        description: data.description,
+      product={{
+        id: data.product.slug,
+        title: data.product.name,
+        description: data.product.description,
         longDescription: data.longDescription,
-        thumbnailUrl: data.image,
-        thumbnailAlt: data.title,
-        rating: data.rating.rate,
+        thumbnailUrl: data.product.images[0].url,
+        thumbnailAlt: data.product.name,
+        rating: 5,
       }}
     />
   );
@@ -23,14 +33,15 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
 
 export default ProductIdPage;
 
-export const getStaticPaths = async (): Promise<GetStaticPathsResult<import("querystring").ParsedUrlQuery>> => {
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products?take=25&offset=0`);
-  const data: StoreApiResponse[] = await res.json();
+export const getStaticPaths = async () => {
+  const { data } = await apolloClient.query<GetProductsSlugsQuery>({
+    query: GetProductsSlugsDocument,
+  });
   return {
-    paths: data.slice(0, 1).map((product) => {
+    paths: data.products.map((product) => {
       return {
         params: {
-          productId: product.id.toString(),
+          productId: product.slug,
         },
       };
     }),
@@ -45,9 +56,14 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext<{ product
       notFound: true,
     };
   }
-  const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${params?.productId}`);
-  const data: StoreApiResponse | null = await res.json();
-  if (!data) {
+  const { data } = await apolloClient.query<GetProductDetailsBySlugQuery, GetProductDetailsBySlugQueryVariables>({
+    variables: {
+      slug: params.productId,
+    },
+    query: GetProductDetailsBySlugDocument,
+  });
+
+  if (!data.product) {
     return {
       props: {},
       notFound: true,
@@ -58,22 +74,8 @@ export const getStaticProps = async ({ params }: GetStaticPropsContext<{ product
     props: {
       data: {
         ...data,
-        longDescription: await serialize(data.longDescription),
+        longDescription: await serialize(data.product.description),
       },
     },
   };
 };
-
-interface StoreApiResponse {
-  id: number;
-  title: string;
-  price: number;
-  description: string;
-  longDescription: string;
-  category: string;
-  image: string;
-  rating: {
-    rate: number;
-    count: number;
-  };
-}

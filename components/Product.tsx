@@ -4,37 +4,42 @@ import { Rating } from "./Rating";
 import { NextSeo } from "next-seo";
 import { NextMarkdown } from "./NextMarkdown";
 import { MarkdownResult } from "types";
+import { GetProductDetailsBySlugQuery } from "generated/graphql";
 
 export interface ProductDetails {
-  id: number;
+  id: string;
+  name: string;
   description: string;
   longDescription: MarkdownResult;
   thumbnailUrl: string;
   thumbnailAlt: string;
   rating: number;
-  title: string;
 }
 
 interface ProductDetailsProps {
-  data: ProductDetails;
+  product: ProductDetails;
 }
 
-export const ProductDetails = ({ data }: ProductDetailsProps) => {
+export const ProductDetails = ({ product }: ProductDetailsProps) => {
+  console.log(product);
   const router = useRouter();
+  if (!product) {
+    return <div>Error</div>;
+  }
   return (
     <>
       <NextSeo
-        title={data.title}
-        description={data.description}
-        canonical={`https://nextjs-shop-eight.vercel.app/products/${data.id}`}
+        title={product.name}
+        description={product.description}
+        canonical={`https://nextjs-shop-eight.vercel.app/products/${product.id}`}
         openGraph={{
-          url: `https://nextjs-shop-eight.vercel.app/products/${data.id}`,
-          title: data.title,
-          description: data.description,
+          url: `https://nextjs-shop-eight.vercel.app/products/${product.id}`,
+          title: product.name,
+          description: product.description,
           images: [
             {
-              url: data.thumbnailUrl,
-              alt: data.thumbnailAlt,
+              url: product.thumbnailUrl,
+              alt: product.name,
               type: "image/jpeg",
             },
           ],
@@ -48,17 +53,15 @@ export const ProductDetails = ({ data }: ProductDetailsProps) => {
               width={500}
               height={500}
               className="rounded object-contain"
-              src={data.thumbnailUrl}
-              alt={data.thumbnailAlt}
+              src={product.thumbnailUrl}
+              alt={product.name}
             />
             <div className="lg:w-1/2 w-full p-6 lg:px-10 lg:py-6 mt-6 lg:mt-0">
-              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{data.title}</h1>
+              <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">{product.name}</h1>
               <div className="flex mb-4">
-                <Rating rating={data.rating} />
+                <Rating rating={5} />
               </div>
-              <article className="prose">
-                <NextMarkdown>{data.longDescription}</NextMarkdown>
-              </article>
+              <article className="prose">{/* <NextMarkdown>{product.description}</NextMarkdown> */}</article>
               <div className="flex mt-6 items-center pb-5 border-b-2 border-gray-100 mb-5">
                 <div className="flex">
                   <span className="mr-3">Color</span>

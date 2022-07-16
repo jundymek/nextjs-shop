@@ -11,7 +11,7 @@ interface ProductListItemProps {
 const ProductListItem = ({ data }: ProductListItemProps) => {
   const cartState = useCartState();
   const handleAddToCart = () => {
-    cartState.addItemToCart({ title: data.title, price: 12, count: 1 });
+    cartState.addItemToCart({ title: data.title, price: 12, count: 1, id: data.id });
   };
   return (
     <section className="text-gray-600 body-font overflow-hidden h-full py-4">

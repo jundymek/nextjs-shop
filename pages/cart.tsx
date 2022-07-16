@@ -15,7 +15,7 @@ const CartContent = () => {
             </div>
             <div className="flex items-center">
               <span>{item.price}</span>
-              <button className="ml-4 text-red-500">
+              <button className="ml-4 text-red-500" onClick={() => cartState.removeItemFromCart(item.id)}>
                 <TrashIcon />
               </button>
             </div>

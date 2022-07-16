@@ -1,6 +1,8 @@
+import { gql, useQuery } from "@apollo/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
+
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
@@ -15,8 +17,30 @@ const DATA = {
 };
 
 const Home = () => {
+  const { loading, error, data } = useQuery(gql`
+    query GetProducts {
+      products {
+        id
+        name
+        price
+        description
+        slug
+        images(first: 1) {
+          url
+        }
+      }
+    }
+  `);
+  if (loading) return <Main>Loading...</Main>;
+  if (error)
+    return (
+      <Main>
+        <p>Error :{error}</p>
+      </Main>
+    );
   return (
     <Main>
+      <pre>{JSON.stringify(data, null, 2)}</pre>
       <section className="text-gray-600 body-font">
         <div className="container mx-auto flex px-5 pt-24 items-center justify-center flex-col">
           <Image

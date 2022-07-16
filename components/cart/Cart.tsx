@@ -7,7 +7,7 @@ export const Cart = () => {
   return (
     <Link href="/cart">
       <a>
-        {cartState.items.length}
+        {cartState.items?.length}
         <ShoppingCartIcon />
       </a>
     </Link>
