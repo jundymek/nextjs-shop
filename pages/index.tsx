@@ -1,4 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
+import {
+  CreateProductReviewDocument,
+  CreateProductReviewMutation,
+  CreateProductReviewMutationVariables,
+  useCreateProductReviewMutation,
+} from "generated/graphql";
+import { apolloClient } from "graphql/apolloClient";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -17,31 +24,25 @@ const DATA = {
 };
 
 const Home = () => {
-  const { loading, error, data } = useQuery(gql`
-    query GetProducts {
-      products {
-        id
-        name
-        price
-        description
-        slug
-        images(first: 1) {
-          url
-        }
-      }
-    }
-  `);
-  if (loading) return <Main>Loading...</Main>;
-  if (error)
-    return (
-      <Main>
-        <p>Error :{error}</p>
-      </Main>
-    );
+  const [createReview, createReviewResult] = useCreateProductReviewMutation();
+  const addReview = () => {
+    createReview({
+      variables: {
+        review: {
+          content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, eligendi?",
+          email: "test@test.pl",
+          headline: "Lorem ipsum dolor sit amet",
+          name: "Lorem ipsum",
+        },
+      },
+    });
+  };
   return (
     <Main>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
       <section className="text-gray-600 body-font">
+        <button onClick={addReview} type="button">
+          Dodaj recencję
+        </button>
         <div className="container mx-auto flex px-5 pt-24 items-center justify-center flex-col">
           <Image
             width={800}
