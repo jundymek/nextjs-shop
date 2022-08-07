@@ -4,3 +4,9 @@ mutation CreateProductReview($review: ReviewCreateInput!) {
     stage
   }
 }
+
+mutation CreateOrder($orderData: OrderCreateInput!) {
+  createOrder(data: $orderData) {
+    id
+  }
+}
