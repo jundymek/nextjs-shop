@@ -1,5 +1,5 @@
 import { Pagination } from "components/Pagination";
-import ProductListItem from "components/ProductListItem";
+import ProductListItem from "components/product/ProductListItem";
 import {
   GetProductsQuery,
   GetProductsDocument,

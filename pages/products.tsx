@@ -1,7 +1,7 @@
 import { gql } from "@apollo/client";
 import { Pagination } from "components/Pagination";
-import { ProductDetails } from "components/Product";
-import ProductListItem from "components/ProductListItem";
+import { ProductDetails } from "components/product/Product";
+import ProductListItem from "components/product/ProductListItem";
 import { GetProductsDocument, GetProductsQuery, useGetProductsQuery } from "generated/graphql";
 import { apolloClient } from "graphql/apolloClient";
 import { InferGetStaticPropsType } from "next";

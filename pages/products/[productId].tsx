@@ -1,5 +1,5 @@
 import { gql } from "@apollo/client";
-import { ProductDetails } from "components/Product";
+import { ProductDetails } from "components/product/Product";
 import {
   GetProductDetailsBySlugDocument,
   GetProductDetailsBySlugQuery,
@@ -16,7 +16,6 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
   if (!data || !data?.product) {
     return <div>Error</div>;
   }
-  console.log(data);
   return (
     <ProductDetails
       product={{
@@ -26,7 +25,8 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
         longDescription: data.longDescription,
         thumbnailUrl: data.product.images[0].url,
         thumbnailAlt: data.product.name,
-        rating: 5,
+        rating:
+          data.product.reviews.reduce((a, b) => (b.rating ? a + b.rating : 0), 0) / data.product.reviews.length || 0,
       }}
     />
   );

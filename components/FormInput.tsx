@@ -1,7 +1,7 @@
 import { HTMLInputTypeAttribute } from "react";
 import { DeepRequired, FieldErrorsImpl, UseFormRegister } from "react-hook-form";
 import { ChekoutFormType } from "./CheckoutForm";
-import { ProductReviewFormType } from "./ProductReviewForm";
+import { ProductReviewFormType } from "./product/review/ProductReviewForm";
 
 type Dupa = ChekoutFormType | ProductReviewFormType;
 

@@ -2,12 +2,12 @@ import Image from "next/image";
 import { useRouter } from "next/router";
 import { Rating } from "./Rating";
 import { NextSeo } from "next-seo";
-import { NextMarkdown } from "./NextMarkdown";
+import { NextMarkdown } from "../NextMarkdown";
 import { MarkdownResult } from "types";
 import { GetProductDetailsBySlugQuery, useGetProductReviewsBySlugQuery } from "generated/graphql";
 import { useState } from "react";
-import { ProductReviewForm } from "./ProductReviewForm";
-import { ProductReviews } from "./ProductReviews";
+import { ProductReviewForm } from "./review/ProductReviewForm";
+import { ProductReviews } from "./review/ProductReviews";
 
 export interface ProductDetails {
   slug: string;

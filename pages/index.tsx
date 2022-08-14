@@ -13,7 +13,7 @@ import { useState } from "react";
 import { Footer } from "../components/Footer";
 import { Header } from "../components/Header";
 import { Main } from "../components/Main";
-import { ProductDetails } from "../components/Product";
+import { ProductDetails } from "../components/product/Product";
 
 const DATA = {
   description:

@@ -10386,7 +10386,7 @@ export type GetProductDetailsBySlugQueryVariables = Exact<{
 }>;
 
 
-export type GetProductDetailsBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', slug: string, name: string, price: number, description: string, images: Array<{ __typename?: 'Asset', id: string, url: string }> } | null };
+export type GetProductDetailsBySlugQuery = { __typename?: 'Query', product?: { __typename?: 'Product', slug: string, name: string, price: number, description: string, reviews: Array<{ __typename?: 'Review', rating?: number | null }>, images: Array<{ __typename?: 'Asset', id: string, url: string }> } | null };
 
 export type GetProductsSlugsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10528,6 +10528,9 @@ export const GetProductDetailsBySlugDocument = gql`
     name
     price
     description
+    reviews {
+      rating
+    }
     images {
       id
       url

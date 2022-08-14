@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { useCartState } from "./cart/CartContext";
+import { useCartState } from "../cart/CartContext";
 import { ProductDetails } from "./Product";
 
 type ProductListItem = Pick<ProductDetails, "slug" | "title" | "thumbnailUrl" | "thumbnailAlt">;
