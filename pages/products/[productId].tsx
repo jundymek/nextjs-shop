@@ -12,6 +12,7 @@ import { GetStaticPathsResult, GetStaticPropsContext, InferGetStaticPropsType } 
 import { serialize } from "next-mdx-remote/serialize";
 
 const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  console.log(data);
   if (!data || !data?.product) {
     return <div>Error</div>;
   }
@@ -19,7 +20,7 @@ const ProductIdPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>)
   return (
     <ProductDetails
       product={{
-        id: data.product.slug,
+        slug: data.product.slug,
         title: data.product.name,
         description: data.product.description,
         longDescription: data.longDescription,

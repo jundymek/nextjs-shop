@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useCartState } from "./cart/CartContext";
 import { ProductDetails } from "./Product";
 
-type ProductListItem = Pick<ProductDetails, "id" | "title" | "thumbnailUrl" | "thumbnailAlt">;
+type ProductListItem = Pick<ProductDetails, "slug" | "title" | "thumbnailUrl" | "thumbnailAlt">;
 interface ProductListItemProps {
   data: ProductListItem;
 }
@@ -11,7 +11,7 @@ interface ProductListItemProps {
 const ProductListItem = ({ data }: ProductListItemProps) => {
   const cartState = useCartState();
   const handleAddToCart = () => {
-    cartState.addItemToCart({ title: data.title, price: 12, count: 1, id: data.id });
+    cartState.addItemToCart({ title: data.title, price: 12, count: 1, slug: data.slug });
   };
   return (
     <section className="text-gray-600 body-font overflow-hidden h-full py-4">
@@ -26,7 +26,7 @@ const ProductListItem = ({ data }: ProductListItemProps) => {
           />
           <div>
             <span className="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</span>
-            <Link href={`/products/${data.id}`}>
+            <Link href={`/products/${data.slug}`}>
               <a className="hover:underline">
                 <h3 className="text-gray-900 text-3xl title-font font-medium mb-1">{data.title}</h3>
               </a>

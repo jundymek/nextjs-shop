@@ -4,9 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 
 interface PaginationProps {
   numberOfProducts: number;
+  hasNextPage: boolean;
+  hasPreviousPage: boolean;
 }
 
-export const Pagination = ({ numberOfProducts }: PaginationProps) => {
+export const Pagination = ({ numberOfProducts, hasNextPage, hasPreviousPage }: PaginationProps) => {
   const router = useRouter();
   const numberOfPages = Math.ceil(numberOfProducts / 25);
   console.log(numberOfPages);
@@ -40,7 +42,7 @@ export const Pagination = ({ numberOfProducts }: PaginationProps) => {
 
   return (
     <nav className="sm:border-t border-gray-200 px-4 flex items-center justify-between sm:px-0 mt-2">
-      <div className="hidden sm:-mt-px sm:flex">
+      {/* <div className="hidden sm:-mt-px sm:flex">
         <ul>
           <li className="inline-block">
             <Link href={`/products/page/${currentPage - 1}`}>
@@ -154,16 +156,16 @@ export const Pagination = ({ numberOfProducts }: PaginationProps) => {
             </Link>
           </li>
         </ul>
-      </div>
-      <div className="flex flex-col items-center sm:hidden">
-        <p className="text-xs mb-1">
+      </div> */}
+      <div className="flex flex-col items-center ">
+        {/* <p className="text-xs mb-1">
           Page {currentPage} of {numberOfPages}
-        </p>
+        </p> */}
         <div className="inline-flex justify-center space-x-1">
           <Link href={`/products/page/${currentPage - 1}`}>
             <a
               className={
-                currentPage === 1
+                !hasPreviousPage
                   ? "pointer-events-none inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded"
                   : "inline-flex items-center justify-center w-8 h-8 border border-gray-200 rounded"
               }
@@ -180,7 +182,7 @@ export const Pagination = ({ numberOfProducts }: PaginationProps) => {
           <Link href={`/products/page/${currentPage + 1}`}>
             <a
               className={
-                currentPage === 10
+                !hasNextPage
                   ? "pointer-events-none inline-flex items-center justify-center w-8 h-8 border border-gray-100 rounded"
                   : "inline-flex items-center justify-center w-8 h-8 border border-gray-200 rounded"
               }

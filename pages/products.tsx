@@ -9,11 +9,12 @@ import { InferGetStaticPropsType } from "next";
 const getProducts = async () => {
   const res = await fetch(`https://naszsklep-api.vercel.app/api/products/`);
   const data: StoreApiResponse[] = await res.json();
-  console.log(data);
+
   return data;
 };
 
 const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) => {
+  console.log(data);
   return (
     <div className="flex flex-col items-center py-4">
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -22,12 +23,13 @@ const ProductsPage = ({ data }: InferGetStaticPropsType<typeof getStaticProps>) 
             <li key={product.slug} className="shadow-sm border">
               <ProductListItem
                 data={{
-                  id: product.slug,
+                  slug: product.slug,
                   title: product.name,
                   thumbnailUrl: product.images[0].url,
                   thumbnailAlt: product.name,
                 }}
               />
+              xxxxxxxxxx
             </li>
           );
         })}

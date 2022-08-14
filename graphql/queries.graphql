@@ -1,11 +1,17 @@
 query GetProducts {
   products {
+    id
     name
     price
     description
     slug
     images(first: 1) {
       url
+    }
+  }
+  productsConnection {
+    aggregate {
+      count
     }
   }
 }
@@ -26,5 +32,41 @@ query GetProductDetailsBySlug($slug: String) {
 query GetProductsSlugs {
   products {
     slug
+  }
+}
+
+query GetProductsPaginate($offset: Int) {
+  productsConnection(first: 2, skip: $offset) {
+    edges {
+      cursor
+      node {
+        id
+        name
+        price
+        description
+        slug
+        images(first: 1) {
+          url
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+      pageSize
+    }
+  }
+}
+
+query GetProductReviewsBySlug($slug: String) {
+  reviews(where: { product: { slug: $slug } }) {
+    id
+    createdAt
+    headline
+    name
+    content
+    rating
   }
 }

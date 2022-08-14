@@ -1,14 +1,17 @@
 import { HTMLInputTypeAttribute } from "react";
 import { DeepRequired, FieldErrorsImpl, UseFormRegister } from "react-hook-form";
 import { ChekoutFormType } from "./CheckoutForm";
+import { ProductReviewFormType } from "./ProductReviewForm";
+
+type Dupa = ChekoutFormType | ProductReviewFormType;
 
 interface FormInputProps {
-  label: keyof ChekoutFormType;
+  label: keyof ChekoutFormType | keyof ProductReviewFormType;
   type: HTMLInputTypeAttribute;
   placeholder: string;
   inputName: string;
-  errors: FieldErrorsImpl<DeepRequired<ChekoutFormType>>;
-  register: UseFormRegister<ChekoutFormType>;
+  errors: FieldErrorsImpl<DeepRequired<ChekoutFormType>> & FieldErrorsImpl<DeepRequired<ProductReviewFormType>>;
+  register: UseFormRegister<ChekoutFormType> | UseFormRegister<ProductReviewFormType>;
 }
 
 export const FormInput = ({ label, type, placeholder, inputName, errors, register }: FormInputProps) => {
