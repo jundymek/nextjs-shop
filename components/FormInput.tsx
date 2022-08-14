@@ -11,7 +11,7 @@ interface FormInputProps {
   placeholder: string;
   inputName: string;
   errors: FieldErrorsImpl<DeepRequired<ChekoutFormType>> & FieldErrorsImpl<DeepRequired<ProductReviewFormType>>;
-  register: UseFormRegister<ChekoutFormType> | UseFormRegister<ProductReviewFormType>;
+  register: any;
 }
 
 export const FormInput = ({ label, type, placeholder, inputName, errors, register }: FormInputProps) => {
