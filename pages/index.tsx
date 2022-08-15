@@ -24,6 +24,7 @@ const DATA = {
 };
 
 const Home = () => {
+  console.log(process.env.MAILERLITE_API_KEY);
   const [createReview, createReviewResult] = useCreateProductReviewMutation();
   const addReview = () => {
     createReview({
