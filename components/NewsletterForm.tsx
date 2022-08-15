@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { FormInput } from "./FormInput";
+import { useMutation } from "react-query";
 
 export const schema = yup
   .object({
@@ -21,15 +22,23 @@ export const NewsletterForm = () => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit = handleSubmit((data) => {
-    const response = fetch("http://localhost:3001/api/hello", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email: data.email }),
+  const useAddtoNewsletterMutation = () =>
+    useMutation(async (email: string) => {
+      const response = await fetch("http://localhost:3001/api/hello", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      return response.json();
     });
-    console.log(response);
+
+  const { mutate } = useAddtoNewsletterMutation();
+
+  const onSubmit = handleSubmit((data) => {
+    mutate(data.email);
   });
   return (
     <form className="justify-center w-full mx-auto" method="post" onSubmit={onSubmit}>
