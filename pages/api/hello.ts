@@ -5,7 +5,6 @@ const handler: NextApiHandler = async (req, res) => {
   if (req.method !== "POST") {
     return res.setHeader("Allow", "POST").status(405).end("Method Not Allowed");
   }
-  res.status(200).json({ body: req.body });
 
   const MAILERLITE_GROUP_ID = process.env.MAILERLITE_GROUP_ID;
   const MAILERLITE_API_KEY = process.env.MAILERLITE_API_KEY;
@@ -18,13 +17,11 @@ const handler: NextApiHandler = async (req, res) => {
     return res.status(400).json({ error: "Email is not a string" });
   }
 
-  console.log({ test: process.env.MAILERLITE_API_KEY });
-
   const options = {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-MailerLite-ApiKey": MAILERLITE_API_KEY || "",
+      "X-MailerLite-ApiKey": MAILERLITE_API_KEY,
     },
     body: JSON.stringify({ email: email }),
   };
@@ -36,7 +33,6 @@ const handler: NextApiHandler = async (req, res) => {
   if (!mailerliteResponse.ok) {
     return res.status(500).json({ error: "Something went wrong!" });
   }
-  // const json = await response.json();
 
   return res.status(201).json({});
 };
