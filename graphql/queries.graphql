@@ -63,13 +63,16 @@ query GetProductsPaginate($offset: Int) {
   }
 }
 
+fragment ReviewContent on Review {
+  id
+  headline
+  name
+  content
+  rating
+}
+
 query GetProductReviewsBySlug($slug: String) {
   reviews(where: { product: { slug: $slug } }) {
-    id
-    createdAt
-    headline
-    name
-    content
-    rating
+    ...ReviewContent
   }
 }

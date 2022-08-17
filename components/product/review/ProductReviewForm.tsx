@@ -2,7 +2,11 @@ import { useForm } from "react-hook-form";
 import { FormInput } from "../../FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCreateProductReviewMutation } from "generated/graphql";
+import {
+  GetProductReviewsBySlugDocument,
+  GetProductReviewsBySlugQuery,
+  useCreateProductReviewMutation,
+} from "generated/graphql";
 
 export const schema = yup
   .object({
@@ -29,7 +33,9 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
   } = useForm<ProductReviewFormType>({
     resolver: yupResolver(schema),
   });
-  const [createReview, createReviewResult] = useCreateProductReviewMutation();
+  const [createReview, createReviewResult] = useCreateProductReviewMutation({
+    refetchQueries: [{ query: GetProductReviewsBySlugDocument, variables: { slug: productSlug } }],
+  });
   const onSubmit = (data: ProductReviewFormType) => {
     console.log(data);
     createReview({
@@ -109,7 +115,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
           <select
             id="rating"
             className="block w-36 px-4 py-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-            name="rating"
+            {...register("rating")}
           >
             <option value="">Select rating</option>
             <option value={1}>1</option>

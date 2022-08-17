@@ -10367,7 +10367,7 @@ export type CreateProductReviewMutationVariables = Exact<{
 }>;
 
 
-export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string, stage: Stage } | null };
+export type CreateProductReviewMutation = { __typename?: 'Mutation', createReview?: { __typename?: 'Review', id: string, headline: string, name: string, content: string, rating?: number | null } | null };
 
 export type CreateOrderMutationVariables = Exact<{
   orderData: OrderCreateInput;
@@ -10400,22 +10400,31 @@ export type GetProductsPaginateQueryVariables = Exact<{
 
 export type GetProductsPaginateQuery = { __typename?: 'Query', productsConnection: { __typename?: 'ProductConnection', edges: Array<{ __typename?: 'ProductEdge', cursor: string, node: { __typename?: 'Product', id: string, name: string, price: number, description: string, slug: string, images: Array<{ __typename?: 'Asset', url: string }> } }>, pageInfo: { __typename?: 'PageInfo', hasNextPage: boolean, hasPreviousPage: boolean, startCursor?: string | null, endCursor?: string | null, pageSize?: number | null } } };
 
+export type ReviewContentFragment = { __typename?: 'Review', id: string, headline: string, name: string, content: string, rating?: number | null };
+
 export type GetProductReviewsBySlugQueryVariables = Exact<{
   slug?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type GetProductReviewsBySlugQuery = { __typename?: 'Query', reviews: Array<{ __typename?: 'Review', id: string, createdAt: any, headline: string, name: string, content: string, rating?: number | null }> };
+export type GetProductReviewsBySlugQuery = { __typename?: 'Query', reviews: Array<{ __typename?: 'Review', id: string, headline: string, name: string, content: string, rating?: number | null }> };
 
-
+export const ReviewContentFragmentDoc = gql`
+    fragment ReviewContent on Review {
+  id
+  headline
+  name
+  content
+  rating
+}
+    `;
 export const CreateProductReviewDocument = gql`
     mutation CreateProductReview($review: ReviewCreateInput!) {
   createReview(data: $review) {
-    id
-    stage
+    ...ReviewContent
   }
 }
-    `;
+    ${ReviewContentFragmentDoc}`;
 export type CreateProductReviewMutationFn = Apollo.MutationFunction<CreateProductReviewMutation, CreateProductReviewMutationVariables>;
 
 /**
@@ -10657,15 +10666,10 @@ export type GetProductsPaginateQueryResult = Apollo.QueryResult<GetProductsPagin
 export const GetProductReviewsBySlugDocument = gql`
     query GetProductReviewsBySlug($slug: String) {
   reviews(where: {product: {slug: $slug}}) {
-    id
-    createdAt
-    headline
-    name
-    content
-    rating
+    ...ReviewContent
   }
 }
-    `;
+    ${ReviewContentFragmentDoc}`;
 
 /**
  * __useGetProductReviewsBySlugQuery__

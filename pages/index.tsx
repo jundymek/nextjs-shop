@@ -1,4 +1,5 @@
 import { gql, useQuery } from "@apollo/client";
+import { NewsletterForm } from "components/NewsletterForm";
 import {
   CreateProductReviewDocument,
   CreateProductReviewMutation,
@@ -11,39 +12,14 @@ import Link from "next/link";
 import { useState } from "react";
 
 import { Footer } from "../components/Footer";
-import { Header } from "../components/Header";
-import { Main } from "../components/Main";
-import { ProductDetails } from "../components/product/Product";
 
-const DATA = {
-  description:
-    "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, eligendi? Quae quidem, id repudiandae doloremque suscipit consectetur quibusdam, blanditiis nisi in natus odio deleniti voluptatum aliquam ipsam! Odio, labore assumenda? Id nemo qui tempora cum sequi excepturi, quisquam alias. Quos laudantium officia, est debitis aliquid ipsam vitae? Dolor facere harum, architecto esse enim qui ipsa dolorum dolores consequatur aspernatur nesciunt.Laudantium autem molestiae accusantium, architecto ex harum consequuntur ipsum asperiores magnam voluptatibus beatae commodi dolore delectus esse. Recusandae labore enim ut, similique, doloremque minima, inventore praesentium quam saepe dolores facere. Vero inventore sed error facilis quasi nobis dolor perferendis dignissimos quis cupiditate officia eius repellendus expedita maiores, laudantium esse voluptatem distinctio, impedit possimus aspernatur obcaecati? Ipsa doloribus perspiciatis tempora iusto! Earum corrupti in velit quo nihil nisi id, aperiam perspiciatis reiciendis voluptas nam? Architecto nobis vero suscipit accusamus dolores voluptatibus error doloremque ducimus earum. Libero repudiandae ut hic non fugiat.",
-  thumbnailUrl: "https://picsum.photos/id/111/1060/",
-  thumbnailAlt: "Jakiś tam opis obrazka",
-  rating: 2.5,
-};
+import { Main } from "../components/Main";
 
 const Home = () => {
-  console.log(process.env.MAILERLITE_API_KEY);
-  const [createReview, createReviewResult] = useCreateProductReviewMutation();
-  const addReview = () => {
-    createReview({
-      variables: {
-        review: {
-          content: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic, eligendi?",
-          email: "test@test.pl",
-          headline: "Lorem ipsum dolor sit amet",
-          name: "Lorem ipsum",
-        },
-      },
-    });
-  };
   return (
     <Main>
       <section className="text-gray-600 body-font">
-        <button onClick={addReview} type="button">
-          Dodaj recencję
-        </button>
+        <NewsletterForm />
         <div className="container mx-auto flex px-5 pt-24 items-center justify-center flex-col">
           <Image
             width={800}
