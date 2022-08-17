@@ -2,7 +2,12 @@ import { useForm } from "react-hook-form";
 import { FormInput } from "../../FormInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCreateProductReviewMutation } from "generated/graphql";
+import {
+  GetProductReviewsBySlugDocument,
+  GetProductReviewsBySlugQuery,
+  useCreateProductReviewMutation,
+} from "generated/graphql";
+import { match } from "assert";
 
 export const schema = yup
   .object({
@@ -29,7 +34,34 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
   } = useForm<ProductReviewFormType>({
     resolver: yupResolver(schema),
   });
-  const [createReview, createReviewResult] = useCreateProductReviewMutation();
+  const [createReview, createReviewResult] = useCreateProductReviewMutation({
+    // refetchQueries: [{ query: GetProductReviewsBySlugDocument, variables: { slug: productSlug } }],
+    update(cache, result) {
+      const originalReviewsQuery = cache.readQuery<GetProductReviewsBySlugQuery>({
+        query: GetProductReviewsBySlugDocument,
+        variables: { slug: productSlug },
+      });
+
+      if (!originalReviewsQuery || !result.data?.createReview) {
+        return;
+      }
+
+      const newReviewsQuery = {
+        ...originalReviewsQuery,
+        reviews: [...originalReviewsQuery.reviews, result.data.createReview],
+      };
+
+      console.log(originalReviewsQuery);
+
+      cache.writeQuery({
+        query: GetProductReviewsBySlugDocument,
+        variables: { slug: productSlug },
+        data: newReviewsQuery,
+      });
+
+      console.log(newReviewsQuery);
+    },
+  });
   const onSubmit = (data: ProductReviewFormType) => {
     console.log(data);
     createReview({
@@ -45,6 +77,14 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
               slug: productSlug,
             },
           },
+        },
+      },
+      optimisticResponse: {
+        __typename: "Mutation",
+        createReview: {
+          __typename: "Review",
+          id: (-Math.random()).toString(32),
+          ...data,
         },
       },
     });
@@ -109,7 +149,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
           <select
             id="rating"
             className="block w-36 px-4 py-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-primary-500 focus:border-primary-500"
-            name="rating"
+            {...register("rating")}
           >
             <option value="">Select rating</option>
             <option value={1}>1</option>

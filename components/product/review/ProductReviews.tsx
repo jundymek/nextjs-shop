@@ -6,20 +6,24 @@ interface ProductReviewsProps {
 }
 
 export const ProductReviews = ({ productSlug }: ProductReviewsProps) => {
-  const reviews = useGetProductReviewsBySlugQuery({
+  const { data, loading, error } = useGetProductReviewsBySlugQuery({
     variables: {
       slug: productSlug,
     },
   });
-  console.log(reviews);
+  console.log(data);
+  if (!data) {
+    return null;
+  }
   return (
     <div className="w-full px-10">
-      {reviews.data?.reviews.map((review) => (
+      {data.reviews.map((review) => (
         <div key={review.id}>
           <div>{review.name}</div>
           <div>{review.headline}</div>
           <div>{review.content}</div>
           <div>{review.rating}</div>
+          <b>{review.id}</b>
         </div>
       ))}
     </div>
