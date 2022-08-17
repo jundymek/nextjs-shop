@@ -7,7 +7,6 @@ import {
   GetProductReviewsBySlugQuery,
   useCreateProductReviewMutation,
 } from "generated/graphql";
-import { match } from "assert";
 
 export const schema = yup
   .object({
@@ -35,32 +34,7 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
     resolver: yupResolver(schema),
   });
   const [createReview, createReviewResult] = useCreateProductReviewMutation({
-    // refetchQueries: [{ query: GetProductReviewsBySlugDocument, variables: { slug: productSlug } }],
-    update(cache, result) {
-      const originalReviewsQuery = cache.readQuery<GetProductReviewsBySlugQuery>({
-        query: GetProductReviewsBySlugDocument,
-        variables: { slug: productSlug },
-      });
-
-      if (!originalReviewsQuery || !result.data?.createReview) {
-        return;
-      }
-
-      const newReviewsQuery = {
-        ...originalReviewsQuery,
-        reviews: [...originalReviewsQuery.reviews, result.data.createReview],
-      };
-
-      console.log(originalReviewsQuery);
-
-      cache.writeQuery({
-        query: GetProductReviewsBySlugDocument,
-        variables: { slug: productSlug },
-        data: newReviewsQuery,
-      });
-
-      console.log(newReviewsQuery);
-    },
+    refetchQueries: [{ query: GetProductReviewsBySlugDocument, variables: { slug: productSlug } }],
   });
   const onSubmit = (data: ProductReviewFormType) => {
     console.log(data);
@@ -77,14 +51,6 @@ export const ProductReviewForm = ({ productSlug }: ProductReviewFormProps) => {
               slug: productSlug,
             },
           },
-        },
-      },
-      optimisticResponse: {
-        __typename: "Mutation",
-        createReview: {
-          __typename: "Review",
-          id: (-Math.random()).toString(32),
-          ...data,
         },
       },
     });
