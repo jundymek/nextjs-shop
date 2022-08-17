@@ -4,7 +4,7 @@ import { StarHalfIcon } from "../icons/StarHalfIcon";
 
 interface RatingProps {
   rating: number;
-  setIsProductReviewsOpen: (isProductReviewsOpen: boolean) => void;
+  setIsProductReviewsOpen?: (isProductReviewsOpen: boolean) => void;
 }
 
 export const Rating = ({ rating, setIsProductReviewsOpen }: RatingProps) => {
@@ -21,9 +21,11 @@ export const Rating = ({ rating, setIsProductReviewsOpen }: RatingProps) => {
         {[...Array(5 - numberOfAllStars)].map((x, i) => (
           <StarEmptyIcon key={i} />
         ))}
-        <button className="text-gray-600 ml-3" onClick={() => setIsProductReviewsOpen(true)}>
-          4 Reviews
-        </button>
+        {setIsProductReviewsOpen && (
+          <button className="text-gray-600 ml-3" onClick={() => setIsProductReviewsOpen(true)}>
+            4 Reviews
+          </button>
+        )}
       </div>
     </div>
   );
